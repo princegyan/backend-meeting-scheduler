@@ -2,7 +2,7 @@
   "name": "meeting-scheduler-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "src/app.js",
+  "main": "app.js",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -19,7 +19,7 @@
     "nodemon": "^3.1.9"
   },
   "scripts": {
-    "start": "nodemon src/app.js",
-    "dev": "nodemon src/app.js"
+    "start": "nodemon app.js",
+    "dev": "nodemon app.js"
   }
 }
