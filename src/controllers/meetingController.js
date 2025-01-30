@@ -1,6 +1,4 @@
-const { query } = require('../config/db');  // Import the query function
 const { ObjectId } = require('mongodb');  // Import ObjectId from mongodb
-
 
 // Create a new meeting
 exports.createMeeting = async (req, res) => {
@@ -39,6 +37,9 @@ exports.getAllMeetings = async (req, res) => {
 // Get a single meeting by ID
 exports.getMeetingById = async (req, res) => {
     const { id } = req.params;
+    if (!ObjectId.isValid(id)) {
+        return res.status(400).json({ error: 'Invalid meeting ID' });
+    }
     try {
         const db = req.db;  // Get the database instance from the request object
         const meeting = await db.collection('meetings').findOne({ _id: new ObjectId(id) });
@@ -55,6 +56,9 @@ exports.getMeetingById = async (req, res) => {
 exports.updateMeeting = async (req, res) => {
     const { id } = req.params;
     const { title, date, time, duration, participants, description } = req.body;
+    if (!ObjectId.isValid(id)) {
+        return res.status(400).json({ error: 'Invalid meeting ID' });
+    }
     if (!title || !date || !time || !duration || !participants) {
         return res.status(400).json({ error: 'All fields are required' });
     }
@@ -76,6 +80,9 @@ exports.updateMeeting = async (req, res) => {
 // Delete a meeting by ID
 exports.deleteMeeting = async (req, res) => {
     const { id } = req.params;
+    if (!ObjectId.isValid(id)) {
+        return res.status(400).json({ error: 'Invalid meeting ID' });
+    }
     try {
         const db = req.db;  // Get the database instance from the request object
         const result = await db.collection('meetings').deleteOne({ _id: new ObjectId(id) });
