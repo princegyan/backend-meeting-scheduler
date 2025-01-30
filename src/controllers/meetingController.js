@@ -1,5 +1,5 @@
 const { query } = require('../config/db');  // Import the query function
-const { ObjectID } = require('mongodb');  // Import ObjectID from mongodb
+const { ObjectId } = require('mongodb');  // Import ObjectId from mongodb
 
 
 // Create a new meeting
@@ -41,7 +41,7 @@ exports.getMeetingById = async (req, res) => {
     const { id } = req.params;
     try {
         const db = req.db;  // Get the database instance from the request object
-        const meeting = await db.collection('meetings').findOne({ _id: new require('mongodb').ObjectID(id) });
+        const meeting = await db.collection('meetings').findOne({ _id: new ObjectId(id) });
         if (!meeting) {
             return res.status(404).json({ error: 'Meeting not found' });
         }
@@ -61,7 +61,7 @@ exports.updateMeeting = async (req, res) => {
     try {
         const db = req.db;  // Get the database instance from the request object
         const result = await db.collection('meetings').updateOne(
-            { _id: new ObjectID(id) },
+            { _id: new ObjectId(id) },
             { $set: { title, date, time, duration, participants, description } }
         );
         if (result.matchedCount === 0) {
@@ -78,7 +78,7 @@ exports.deleteMeeting = async (req, res) => {
     const { id } = req.params;
     try {
         const db = req.db;  // Get the database instance from the request object
-        const result = await db.collection('meetings').deleteOne({ _id: new require('mongodb').ObjectID(id) });
+        const result = await db.collection('meetings').deleteOne({ _id: new ObjectId(id) });
         if (result.deletedCount === 0) {
             return res.status(404).json({ error: 'Meeting not found' });
         }
